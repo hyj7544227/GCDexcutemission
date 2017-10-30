@@ -207,6 +207,7 @@
 				TargetAttributes = {
 					F0EC21681FA70E9700B40E03 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = N2ZWZ52GH5;
 						ProvisioningStyle = Automatic;
 					};
 					F0EC21811FA70E9800B40E03 = {
@@ -422,6 +423,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N2ZWZ52GH5;
 				INFOPLIST_FILE = GCDOperationQueue/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-11.GCDOperationQueue";
@@ -433,6 +435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N2ZWZ52GH5;
 				INFOPLIST_FILE = GCDOperationQueue/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-11.GCDOperationQueue";
