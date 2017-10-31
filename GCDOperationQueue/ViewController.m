@@ -33,6 +33,9 @@
     
     dispatch_semaphore_t sem =dispatch_semaphore_create(0);
     
+    dispatch_async(serial, ^{
+        NSLog(@"1");
+    });
     
 }
 
