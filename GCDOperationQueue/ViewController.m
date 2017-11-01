@@ -16,7 +16,7 @@
 //
 //@property (nonatomic,strong)NSString * three;
 
-@property (nonatomic)BOOL first;
+@property (nonatomic)BOOL first ;
 
 @property (nonatomic)BOOL second;
 
@@ -30,10 +30,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor yellowColor];
+    
     //方法1:用group的通知方法
-    [self firstMethod];
+//    [self firstMethod];
+    
     //方法2：用notification通知中心
-    [self secondMethod];
+//    [self secondMethod];
+    
     //方法3：串行里面嵌套并发
     [self thirdMethod];
     
@@ -68,18 +71,20 @@
     });
 }
 -(void)secondMethod{
-        dispatch_queue_t concurrent = dispatch_queue_create("com.concurrent2.gcd", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+        dispatch_queue_t concurrent = dispatch_queue_create("com.concurrent2.gcd", DISPATCH_QUEUE_CONCURRENT);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishTask:) name:@"task" object:nil];
-    
+
     dispatch_async(concurrent, ^{
         NSLog(@"misson 1");
         [[NSNotificationCenter defaultCenter] postNotificationName:@"task" object:@"1" ];
     });
+
     dispatch_async(concurrent, ^{
         NSLog(@"mission 2");
         [[NSNotificationCenter defaultCenter]postNotificationName:@"task" object:@"2"];
     });
+
     dispatch_async(concurrent, ^{
         NSLog(@"mission 3");
         [[NSNotificationCenter defaultCenter]postNotificationName:@"task" object:@"3"];
@@ -89,25 +94,21 @@
 -(void)finishTask:(NSNotification *)notify{
     
     if ([[notify object]isEqualToString:@"1"]) {
-//        self.one= [notify object];
         self.first = YES;
     }
     if ([[notify object]isEqualToString:@"2"]) {
-//        self.two = [notify object];
         self.second = YES;
     }
     if ([[notify object]isEqualToString:@"3"]) {
-//        self.three = [notify object];
         self.third = YES;
     }
-//    if (self.one || self.two || self.three !=nil) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"执行任务4");
-//        });
-//    }
-    if (self.first == self.second == self.third == YES) {
+
+    if (self.first ==YES && self.second == YES  &&self.third == YES) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSLog(@"前三个任务完成，开始第四个任务");
+            self.first = NO;
+            self.second = NO;
+            self.third = NO;
         });
     }
 }
@@ -116,7 +117,7 @@
     dispatch_queue_t concurrent3 = dispatch_queue_create("com.current3.gcd", DISPATCH_QUEUE_CONCURRENT);
     dispatch_queue_t seiral = dispatch_queue_create("com,serial3.gcd", DISPATCH_QUEUE_SERIAL);
     
-        dispatch_async(seiral, ^{
+        dispatch_sync(seiral, ^{
             dispatch_async(concurrent3, ^{
                 NSLog(@"任务1");
             });
@@ -128,9 +129,10 @@
             });
 
         });
-    dispatch_async(seiral, ^{
+    dispatch_sync(seiral, ^{
         NSLog(@"任务4");
     });
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
