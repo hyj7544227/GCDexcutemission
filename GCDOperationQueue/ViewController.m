@@ -31,14 +31,16 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor yellowColor];
     
-    //方法1:用group的通知方法
-//    [self firstMethod];
+//    方法1:用group的通知方法
+    [self firstMethod];
     
     //方法2：用notification通知中心
 //    [self secondMethod];
     
     //方法3：串行里面嵌套并发
     [self thirdMethod];
+    
+    [self dispatchonce];
     
 }
 -(void)firstMethod{
@@ -133,6 +135,16 @@
         NSLog(@"任务4");
     });
 
+}
+//只执行一次且线程安全
+-(void)dispatchonce{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:self];
+    
+    
+    });
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
